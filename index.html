@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Time Animator</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #FFD700;
+            color: black;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .phone-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            background-color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+        }
+
+        /* Menú hamburguesa */
+        .hamburger-menu {
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hamburger-menu div {
+            width: 30px;
+            height: 4px;
+            background-color: black;
+            margin: 5px 0;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 20px;
+            background-color: #FFD700;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: black;
+            text-decoration: none;
+        }
+
+        .dropdown.active {
+            display: block;
+        }
+
+        /* Imagen principal */
+        .hero-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Sección de personajes */
+        .characters-section {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .characters-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 900px;
+        }
+
+        .character-card {
+            text-align: center;
+        }
+
+        .character-card img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .character-card p {
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* Sección de descripción (About) */
+        .about-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #FFD700;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .about-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .about-text h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .about-text p {
+            font-size: 1.2em;
+            color: black;
+        }
+
+        .about-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Sección de contacto */
+        .contact-form {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .contact-form button {
+            background-color: #FFD700;
+            color: black;
+            border: none;
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        /* Redes sociales */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .social-icons a {
+            margin: 0 10px;
+        }
+
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742039959/WhatsApp_Image_2025-03-15_at_12.49.56_qq8jz8.jpg" alt="Logo" class="logo">
+    <h1>Happy Time Animator</h1>
+    <div class="hamburger-menu" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="dropdown">
+        <a href="#animatori">Animatori</a>
+        <a href="#servicii">Servicii</a>
+        <a href="#contacteaza-ne">Contactează-ne</a>
+    </div>
+    <a href="tel:+37360927792" class="phone-number">+373 (60) 927792</a>
+</header>
+
+<img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742044398/IMG_1007_cbnwqf.jpg" alt="Imagen Promocional" class="hero-image">
+
+<section class="characters-section">
+     <h2 class="characters-title">Personajele</h2>
+    <div class="characters-grid">
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742047609/ANA_ELSA_SI_OLAF_yqnbhl.jpg" alt="">
+            <p>Ana, Elsa şi Olaf</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742047669/ELEFANTUL_DUMBO_gvhuhe.jpg" alt="">
+            <p>Elefantul Dumbo</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742047723/PONEYUL_SI_UNICORNUL_zt7xdi.jpg" alt="">
+            <p>Poneyul şi Unicornul</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742047855/URSULETII_TEDDY_auhgly.jpg" alt="">
+            <p>Ursuleţii Teddy</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742069045/LOL_lo7vvh.jpg" alt="">
+            <p>Păpuşă Lol</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742067664/BABY_BOSS_ydgza6.jpg" alt="">
+            <p>Baby Boss</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742067702/PATRULA_CATELUSILOR_pejqng.jpg" alt="">
+            <p>Patrula Cățeluşilor</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742067780/SPIDERMAN_ejqlzs.jpg" alt="">
+            <p>Spiderman şi Spiderwoman</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742067822/CAPITAN_AMERICA_hrxjru.jpg" alt="">
+            <p>Capitan America</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742067861/BATMAN_ypjkdt.jpg" alt="">
+            <p>Batman şi Catwoman</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742068100/MINECRAFT_jyr8p3.jpg" alt="">
+            <p>Minecraft</p>
+        </div>
+    <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742076910/IEPURASUL_jfxxvw.jpg" alt="">
+            <p>Iepurașul</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742076970/Unicornul_si_papusa_jucariilor_w3pdwq.jpg" alt="">
+            <p>Unicornul și Păpușă Jucăriilor</p>
+        </div>
+        <div class="character-card">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742077021/Rapunzel_si_kgrp8t.jpg" alt="Rapunzel și Bella">
+            <p>Rapunzel și Bella</p>
+        </div>
+</section>
+
+<section class="about-section">
+    <div class="about-content">
+        <div class="about-text">
+            <h2>Despre Happy Time Animator</h2>
+            <p>Happy Time este o companie de animatori care aduce magie și distracție în Moldova din 2022! Oferim spectacole unice și momente de neuitat pentru toate evenimentele speciale. Cu costume exclusive și o echipă plină de energie, transformăm fiecare petrecere într-o experiență de vis. De la personaje îndrăgite la show-uri interactive, garantăm zâmbete și emoții de neuitat. Ne dedicăm să oferim cele mai bune servicii de divertisment pentru copii și adulți. Fiecare eveniment devine special alături de Happy Time! Alegeți profesionalism, creativitate și distracție fără limite. Vă așteptăm să trăim împreună momente de poveste!</p>
+        </div>
+        <div class="about-image">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742052621/Minnie_Mouse_z186up.jpg" alt="Minnie Mouse">
+        </div>
+    </div>
+    </section>
+    <section class="services-section">
+   <h2 class="services-title">Serviciile Noastre</h2>
+    <div class="video-container">
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742076554/POPCORN_y8oihq.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Popcorn [500 LEI/10 COPII 1000 LEI/NELIMITAT]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742072205/VATA_wepafk.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Vată Dulce [500 LEI/10 COPII 1000 LEI/NELIMITAT]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742072272/PARTY_DE_HARTIE_x3y1tw.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Party de hârtie [1200 LEI (30 MIN) ]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742072310/SHOW_CHIMIC_lalqw7.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Show Chimic [ 2199 LEI (30 MIN) ]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742072339/BULE_DE_SAPUN_jkefmd.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Bule de Săpun [ 1200 LEI (30 MIN) ]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742072388/BUBBLE_HOUSE_p6qish.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Bubble House [ 2500 LEI (60 MIN) ]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742074692/Mirror_Man_uj48yp.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Mirror Man [1500 LEI (1) 2400 LEI (2) ]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742073534/Master_Class_Slime_sytmel.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Master Class Slime [ 80 LEI/COPIL (20-30 MIN) ]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742074614/Program_Barbie_f1ltyf.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Program Barbie [ 2300 LEI (70 MIN) ]</p>
+        </div>
+        <div class="video-item">
+            <video controls>
+                <source src="https://res.cloudinary.com/dogfsygjd/video/upload/v1742074643/Program_Fotbal_kra9rc.mp4" type="video/mp4">
+                Browser-ul tău nu suportă tag-ul video.
+            </video>
+            <p>Program Fotbal [ 2400 LEI (60 MIN) ]</p>
+        </div>
+    </div>
+</section>
+
+<style>
+        /* Estilos para la sección de videos */
+        .services-section {
+            text-align: center;
+            padding: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .services-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .video-item {
+            background: #FFD700;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .video-item video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .video-item p {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+            color: black;
+        }
+
+        /* Diseño responsivo */
+        @media (max-width: 768px) {
+            .video-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</section>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recenzii</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bocaditos y Reseñas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #ffcc00;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        /* Estilos de la sección de bocaditos */
+        .bocaditos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .bocadito {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 300px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .bocadito:hover {
+            transform: scale(1.05);
+        }
+
+        .bocadito img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .bocadito .info {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .bocadito h2 {
+            font-size: 20px;
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .bocadito p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .bocaditos {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Recenzii</h1>
+    </header>
+
+    <section class="bocaditos">
+        <div class="bocadito">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742079833/RECENZII_1_la6f9e.jpg" alt="Bocadito 1">
+            <div class="info">
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="bocadito">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742079852/RECENZII_2_qhtztv.jpg" alt="Bocadito 2">
+            <div class="info">
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="bocadito">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742079870/RECENZII_3_aeber1.jpg" alt="Bocadito 3">
+            <div class="info">
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="bocadito">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742079884/RECENZII_4_fomwry.jpg" alt="Bocadito 4">
+            <div class="info">
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="bocadito">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742079899/RECENZII_5_vt7y62.jpg" alt="Bocadito 5">
+            <div class="info">
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="bocadito">
+            <img src="https://res.cloudinary.com/dogfsygjd/image/upload/v1742079912/RECENZII_6_tokvwi.jpg" alt="Bocadito 6">
+            <div class="info">
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
+
+<section class="contact-form">
+    <h2>Contactează-ne</h2>
+    <form action="mailto:contact@animatori.ro" method="post" enctype="text/plain">
+        <input type="text" name="name" placeholder="Numele tău" required>
+        <input type="email" name="email" placeholder="Emailul tău" required>
+        <input type="tel" name="phone" placeholder="Numărul tău de telefon" required>
+        <textarea name="message" placeholder="Mesajul tău" required></textarea>
+        <button type="submit">Trimite mesajul</button>
+    </form>
+</section>
+
+<div class="social-icons">
+        <a href="https://www.instagram.com/happy_time_animator.md/" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+        </a>
+        <a href="https://www.facebook.com/people/Happy-Time-Animator/100081770021438/" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+        </a>
+    </div>
+
+<footer>
+    <p>&copy; 2025 Happy Time Animator</p>
+</footer>
+
+<script>
+    function toggleMenu() {
+        document.querySelector('.dropdown').classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>
